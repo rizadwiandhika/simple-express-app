@@ -1,0 +1,14 @@
+[
+  {
+    "title": "One Piece",
+    "imageUrl": "http://localhost:3000/img/book-1.jpg",
+    "price": "20.99",
+    "description": " A nice book here"
+  },
+  {
+    "title": "Dragon Ball",
+    "imageUrl": "http://localhost:3000/img/book-2.jpg",
+    "price": "15.89",
+    "description": " Story of dragonball never ends..."
+  }
+]
