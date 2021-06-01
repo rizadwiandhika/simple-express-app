@@ -6,6 +6,8 @@ const path = require('path')
 const { rootDirectory } = require('../utilities/path')
 
 module.exports = class Product {
+  static #dataPath = path.join(rootDirectory, 'data', 'products.json')
+
   constructor({ title, imageUrl, price, description }) {
     this.title = title
     this.imageUrl = imageUrl
@@ -14,8 +16,7 @@ module.exports = class Product {
   }
 
   static fetchAll() {
-    const dataPath = path.join(rootDirectory, 'data', 'products.json')
-    return Product.#readData(dataPath)
+    return Product.#readData()
   }
 
   /* 
@@ -40,26 +41,32 @@ module.exports = class Product {
   */
   async save() {
     // ? Membaca file yang baik
-    const dataPath = path.join(rootDirectory, 'data', 'products.json')
-    const data = await Product.#readData(dataPath)
+    this.id = Math.random().toString()
+    const data = await Product.#readData()
 
     data.push(this)
-    const saveSuccess = await Product.#writeData(dataPath, data)
+    const saveSuccess = await Product.#writeData(data)
     return saveSuccess
   }
 
-  static #readData(dataPath) {
+  static async findById(productId) {
+    const data = await Product.#readData()
+    return data.find(({ id }) => id === productId)
+  }
+
+  static #readData() {
     return new Promise((response, reject) => {
-      fs.readFile(dataPath, (error, fileContent) => {
-        const fileEmpty = fileContent.length == 0
+      fs.readFile(Product.#dataPath, (error, fileContent) => {
+        const fileEmpty = fileContent && fileContent.length == 0
+
         response(error || fileEmpty ? [] : JSON.parse(fileContent))
       })
     })
   }
 
-  static #writeData(dataPath, products) {
+  static #writeData(products) {
     return new Promise((response, reject) => {
-      fs.writeFile(dataPath, JSON.stringify(products), (error) => {
+      fs.writeFile(Product.#dataPath, JSON.stringify(products), (error) => {
         response(error == null)
       })
     })

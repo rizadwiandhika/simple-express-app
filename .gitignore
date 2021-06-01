@@ -160,4 +160,8 @@ temp/
 # End of https://www.toptal.com/developers/gitignore/api/macos,node
 
 .vscode/
+notes/
+data/
+test.js
+nodemon.json
 .prettierignore

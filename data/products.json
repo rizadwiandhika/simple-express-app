@@ -3,12 +3,21 @@
     "title": "One Piece",
     "imageUrl": "http://localhost:3000/img/book-1.jpg",
     "price": "20.99",
-    "description": " A nice book here"
+    "description": "The series focuses on Monkey D. Luffy, a young man who, inspired by his childhood idol and powerful pirate \"Red Haired\" Shanks, sets off on a journey from the East Blue Sea to find the titular treasure and proclaim himself the King of the Pirates.",
+    "id": "0.7728259591852791"
   },
   {
-    "title": "Dragon Ball",
+    "title": "Naruto",
+    "imageUrl": "http://localhost:3000/img/book-3.jpg",
+    "price": "19.79",
+    "description": " Naruto (Japanese: NARUTO ナルト ) is a Japanese manga series written and illustrated by Masashi Kishimoto. It tells the story of Naruto Uzumaki, a young ninja who seeks recognition from his peers and dreams of becoming the Hokage, the leader of his village.",
+    "id": "0.8967837613058198"
+  },
+  {
+    "title": "Bleach",
     "imageUrl": "http://localhost:3000/img/book-2.jpg",
-    "price": "15.89",
-    "description": " Story of dragonball never ends..."
+    "price": "18.99",
+    "description": "Bleach follows the adventures of the hotheaded teenager Ichigo Kurosaki, who inherits his parents' destiny after he obtains the powers of a Soul Reaper—a death personification similar to the Grim Reaper—from another Soul Reaper, Rukia Kuchiki.",
+    "id": "0.10939328758372846"
   }
 ]
