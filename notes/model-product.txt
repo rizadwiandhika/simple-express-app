@@ -1,7 +1,0 @@
-Untuk membaca data pada file ada 2 cara:
-1. readFile         => untuk file kecil
-2. createReadStream => untuk file besar
-
-readFile: seluruh contentnya disimpen dulu ke memory baru kita akses memori nya
-createReadStream: Sebagian kecil konten disimpen ke memory lalu kita bekerja dengan itu
-                  selanjutnya akan dibaca lagi bagian kecil sampai selesai
