@@ -17,7 +17,7 @@ exports.getAddProduct = (req, res, next) => {
   res.render(`${global.viewEngine}/admin/add-product`, {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
-    successSave: req.query.saveSuccess
+    successSave: typeof req.query.saveSuccess === 'undefined' || saveSuccess
   })
 }
 

@@ -24,8 +24,8 @@ block content
         textarea#description(name="description", cols="40", rows="5") 
 
       button.btn(type='submit') Add Product
-
-  //- Pake "." biar gak ada pesan warning
+  
+block scripts
   script.
-    const successSave = "#{successSave}" // Pasing data dari pug ke .js
+    const successSave = "#{successSave}"
   script(src="/js/add-product.js")
