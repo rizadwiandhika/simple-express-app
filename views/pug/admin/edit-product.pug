@@ -6,7 +6,7 @@ block styles
 
 block content
   main
-    form.product-form(action='/admin/edit-product', method='POST')
+    form.product-form(action=`/admin/${editing ? 'edit' : 'add'}-product`, method='POST')
       if editing
         input#title(type='hidden', name='id', value=(product.id))
 

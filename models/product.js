@@ -3,6 +3,8 @@
 const fs = require('fs')
 const path = require('path')
 
+const Cart = require('./cart')
+
 const { rootDirectory } = require('../utilities/path')
 
 module.exports = class Product {
@@ -55,15 +57,24 @@ module.exports = class Product {
     }
 
     const data = await Product.#readData()
+
     const productIndex = data.findIndex(({ id }) => id === editedProduct.id)
+    if (productIndex < 0) return
+
     data[productIndex] = editedProduct
     Product.#writeData(data)
   }
 
-  static async deleteProduct(productId) {
+  static async deleteProductById(productId) {
     const data = await Product.#readData()
     const updatedData = data.filter(({ id }) => id !== productId)
 
+    const changes = data.length - updatedData.length > 0
+    if (!changes) return
+
+    const deletedProduct = data.find(({ id }) => id === productId)
+
+    Cart.deleteProduct(deletedProduct)
     Product.#writeData(updatedData)
   }
 

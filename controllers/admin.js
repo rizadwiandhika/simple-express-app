@@ -66,8 +66,8 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   ;(async function () {
-    const { productId } = req.params
-    await Product.deleteProduct(productId)
+    const { productId } = req.body
+    await Product.deleteProductById(productId)
     res.redirect('/admin/products')
   })()
 }

@@ -19,6 +19,17 @@ module.exports = class Cart {
     Cart.#writeData(cart)
   }
 
+  static async deleteProduct({ id: productId, price: productPrice }) {
+    const cart = await Cart.#readData()
+
+    const deletedProduct = cart.products.find(({ id }) => id === productId)
+    const updatedCart = cart.products.filter(({ id }) => id !== productId)
+
+    updatedCart.totalPrice -= productPrice * deletedProduct.qty
+
+    Cart.#writeData(updatedCart)
+  }
+
   static #readData() {
     return new Promise((response, reject) => {
       fs.readFile(Cart.#dataPath, (error, fileContent) => {
