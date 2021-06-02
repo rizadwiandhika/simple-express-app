@@ -52,9 +52,7 @@ module.exports = class Product {
   }
 
   static async editProduct(editedProduct) {
-    if (typeof editedProduct.price !== 'number') {
-      editedProduct.price = +editedProduct.price
-    }
+    editedProduct.price = +editedProduct.price
 
     const data = await Product.#readData()
 
@@ -70,6 +68,7 @@ module.exports = class Product {
     const updatedData = data.filter(({ id }) => id !== productId)
 
     const changes = data.length - updatedData.length > 0
+
     if (!changes) return
 
     const deletedProduct = data.find(({ id }) => id === productId)
@@ -86,9 +85,12 @@ module.exports = class Product {
   static #readData() {
     return new Promise((response, reject) => {
       fs.readFile(Product.#dataPath, (error, fileContent) => {
-        const fileEmpty = fileContent && fileContent.length == 0
-
-        response(error || fileEmpty ? [] : JSON.parse(fileContent))
+        try {
+          const dataObject = JSON.parse(fileContent)
+          response(dataObject)
+        } catch (error) {
+          response([])
+        }
       })
     })
   }
