@@ -9,9 +9,10 @@ module.exports = class Product {
   static #dataPath = path.join(rootDirectory, 'data', 'products.json')
 
   constructor({ title, imageUrl, price, description }) {
+    this.id = Math.random().toString()
     this.title = title
     this.imageUrl = imageUrl
-    this.price = price
+    this.price = typeof price !== 'number' ? +price : price
     this.description = description
   }
 
@@ -41,12 +42,29 @@ module.exports = class Product {
   */
   async save() {
     // ? Membaca file yang baik
-    this.id = Math.random().toString()
     const data = await Product.#readData()
 
     data.push(this)
     const saveSuccess = await Product.#writeData(data)
     return saveSuccess
+  }
+
+  static async editProduct(editedProduct) {
+    if (typeof editedProduct.price !== 'number') {
+      editedProduct.price = +editedProduct.price
+    }
+
+    const data = await Product.#readData()
+    const productIndex = data.findIndex(({ id }) => id === editedProduct.id)
+    data[productIndex] = editedProduct
+    Product.#writeData(data)
+  }
+
+  static async deleteProduct(productId) {
+    const data = await Product.#readData()
+    const updatedData = data.filter(({ id }) => id !== productId)
+
+    Product.#writeData(updatedData)
   }
 
   static async findById(productId) {
