@@ -19,7 +19,8 @@
   npm start
   ```
 
-  > This command is to start our application. <br> > **important: don't quit the terminal after run this command** <br>
+  > This command is to start our application. <br>
+  > **important: don't quit the terminal after run this command** <br><br>
   > Becase what it basically does is to starts local server so you can visit **localhost:3000** in the browser (see the next step).
 
 - Finally, open browser and type this in URL bar
@@ -28,4 +29,4 @@
   localhost:3000
   ```
 
-- Once you're finished, you can just quit the terminal. If you want to start the application again, you should **run the "npm start" and open localhost:3000** again.
+- Once you're finished, you can just quit the terminal. If you want to start the application again, you should **run the "npm start"** and **open localhost:3000** again.
