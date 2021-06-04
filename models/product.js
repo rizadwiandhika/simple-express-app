@@ -6,6 +6,12 @@ const path = require('path')
 const Cart = require('./cart')
 
 const { rootDirectory } = require('../utilities/path')
+const {
+  asyncErrorHandler,
+  GeneralError,
+  NotFound,
+  BadRequest
+} = require('../utilities/error')
 
 module.exports = class Product {
   static #dataPath = path.join(rootDirectory, 'data', 'products.json')
@@ -19,67 +25,52 @@ module.exports = class Product {
   }
 
   static fetchAll() {
-    return Product.#readData()
+    return asyncErrorHandler(BadRequest, Product.#readData)
   }
 
-  /* 
-  * Solusi fecthAll() dari course:
-  static fetchAll(callback) {
-    const dataPath = path.join(rootDirectory, 'data', 'products.json')
-    fs.readFile(dataPath, (error, fileContent) => {
-      callback(error ? [] : JSON.parse(fileContent))
+  save() {
+    return asyncErrorHandler(BadRequest, async () => {
+      const data = await Product.#readData()
+      data.push(this)
+      const saveSuccess = await Product.#writeData(data)
+      return saveSuccess
     })
   }
 
-  * Nanti di controllers products:
-    exports.getProducts = (req, res, next) => {
-      Product.fetchAll((products) => {
-        res.render(`${global.viewEngine}/shop`, {
-          pageTitle: 'Shop',
-          products: products,
-          path: '/'
-        })
-      })
-    }
-  */
-  async save() {
-    // ? Membaca file yang baik
-    const data = await Product.#readData()
+  static editProduct(editedProduct) {
+    return asyncErrorHandler(BadRequest, async () => {
+      const data = await Product.#readData()
+      const productIndex = data.findIndex(({ id }) => id === editedProduct.id)
 
-    data.push(this)
-    const saveSuccess = await Product.#writeData(data)
-    return saveSuccess
+      if (productIndex < 0) return
+
+      data[productIndex] = editedProduct
+      editedProduct.price = +editedProduct.price
+      return Product.#writeData(data)
+    })
   }
 
-  static async editProduct(editedProduct) {
-    editedProduct.price = +editedProduct.price
+  static deleteProductById(productId) {
+    return asyncErrorHandler(BadRequest, async () => {
+      const data = await Product.#readData()
+      const updatedData = data.filter(({ id }) => id !== productId)
 
-    const data = await Product.#readData()
+      const changes = data.length - updatedData.length > 0
 
-    const productIndex = data.findIndex(({ id }) => id === editedProduct.id)
-    if (productIndex < 0) return
+      if (!changes) return
 
-    data[productIndex] = editedProduct
-    Product.#writeData(data)
+      const deletedProduct = data.find(({ id }) => id === productId)
+
+      Cart.deleteProduct(deletedProduct)
+      Product.#writeData(updatedData)
+    })
   }
 
-  static async deleteProductById(productId) {
-    const data = await Product.#readData()
-    const updatedData = data.filter(({ id }) => id !== productId)
-
-    const changes = data.length - updatedData.length > 0
-
-    if (!changes) return
-
-    const deletedProduct = data.find(({ id }) => id === productId)
-
-    Cart.deleteProduct(deletedProduct)
-    Product.#writeData(updatedData)
-  }
-
-  static async findById(productId) {
-    const data = await Product.#readData()
-    return data.find(({ id }) => id === productId)
+  static findById(productId) {
+    return asyncErrorHandler(BadRequest, async () => {
+      const data = await Product.#readData()
+      return data.find(({ id }) => id === productId)
+    })
   }
 
   static #readData() {
@@ -88,7 +79,7 @@ module.exports = class Product {
         try {
           const dataObject = JSON.parse(fileContent)
           response(dataObject)
-        } catch (error) {
+        } catch (err) {
           response([])
         }
       })
