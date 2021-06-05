@@ -2,7 +2,9 @@
 
 - Make sure you have installed NodeJS in your computer. If you don't have one, you can [install NodeJS here](https://nodejs.org/en/) and follow through the installation steps there.
 
-- Open this directory in the Terminal or Command Prompt. Alternatively you can open this folder project in VSCode and use the integrated terminal there.
+- Open this directory in the Terminal or Command Prompt. (Alternatively you can open this folder project in VSCode and use the integrated terminal there).
+
+  <img src="./public/img/open-folder-terminal.gif">
 
 - Run this command in the terminal:
 
@@ -19,8 +21,7 @@
   npm start
   ```
 
-  > This command is to start our application. <br>
-  > **important: don't quit the terminal after run this command** <br><br>
+  > This command is to start our application. <br> > **important: don't quit the terminal after run this command** <br><br>
   > Becase what it basically does is to starts local server so you can visit **localhost:3000** in the browser (see the next step).
 
 - Finally, open browser and type this in URL bar
